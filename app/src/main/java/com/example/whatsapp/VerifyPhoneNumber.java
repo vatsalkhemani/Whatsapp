@@ -37,6 +37,7 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
         Intent intent = getIntent();
         String mobile = intent.getStringExtra("mobile");
+        Toast.makeText(getApplicationContext(),"mobile is" + mobile,Toast.LENGTH_SHORT).show();
         sendVerificationCode(mobile);
 
         findViewById(R.id.verify).setOnClickListener(new View.OnClickListener() {
@@ -102,7 +103,6 @@ public class VerifyPhoneNumber extends AppCompatActivity {
             super.onCodeSent(s, forceResendingToken);
             mVerification = s;
             Toast.makeText(getApplicationContext(), "Code sent", Toast.LENGTH_SHORT).show();
-
         }
         @Override
         public void onVerificationCompleted (PhoneAuthCredential phoneAuthCredential){

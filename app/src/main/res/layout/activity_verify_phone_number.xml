@@ -5,32 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-
+    tools:context=".VerifyPhoneNumber">
 
     <EditText
-        android:id="@+id/phone"
+        android:id="@+id/code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter phone "
+        android:hint="enter OTP"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="80dp"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="335dp"
         tools:ignore="MissingConstraints" />
 
 
 
     <Button
-        android:id="@+id/send"
+        android:id="@+id/verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="send"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="216dp"
+        android:text="verify"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="441dp"
         tools:ignore="MissingConstraints" />
-
-
-
 
 </LinearLayout>

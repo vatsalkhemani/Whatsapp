@@ -1,5 +1,6 @@
 package com.example.whatsapp.Chat;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("chatID",chatList.get(holder.getAdapterPosition()).getChatId());
+                intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });

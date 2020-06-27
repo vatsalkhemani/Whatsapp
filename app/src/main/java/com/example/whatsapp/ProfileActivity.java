@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.example.whatsapp.Chat.ChatListAdapter;
 import com.example.whatsapp.Chat.ChatObject;
 import com.example.whatsapp.User.UserObject;
+import com.example.whatsapp.Utils.SendNotification;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,18 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        OneSignal.startInit(this).init();
+        OneSignal.setSubscription(true);
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+                FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().getUid()).child("notificationKey").setValue(userId);
+            }
+        });
+
+        OneSignal.setInFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+        new SendNotification("message 1","heading 1",null);
+
         Fresco.initialize(this);
 
 
@@ -54,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                OneSignal.setSubscription(false);
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

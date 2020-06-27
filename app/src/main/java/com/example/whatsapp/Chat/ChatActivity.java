@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.whatsapp.R;
+import com.example.whatsapp.User.UserObject;
+import com.example.whatsapp.Utils.SendNotification;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -40,14 +42,14 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mChatLayoutManager,mMediaLayoutManager;
 
     ArrayList<MessageObject> messageList;
-    String chatID;
-    DatabaseReference mChatDb;
+    ChatObject mChatOject;
+    DatabaseReference mChatMessagesDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        chatID=getIntent().getExtras().getString("chatID");
-        mChatDb= FirebaseDatabase.getInstance().getReference().child("chat").child(chatID);
+        mChatOject=(ChatObject) getIntent().getSerializableExtra("chatObject");
+        mChatMessagesDb= FirebaseDatabase.getInstance().getReference().child("chat").child(mChatOject.getChatId()).child("messages");
 
         Button mSend=findViewById(R.id.send);
         Button mAddMedia=findViewById(R.id.addMedia);
@@ -72,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void getChatMessages() {
-        mChatDb.addChildEventListener(new ChildEventListener() {
+        mChatMessagesDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()){
@@ -112,8 +114,8 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage() {
         mMessage=findViewById(R.id.mes);
 
-            String messageId =mChatDb.push().getKey();
-            final DatabaseReference newMessageDb= mChatDb.child(messageId);
+            String messageId =mChatMessagesDb.push().getKey();
+            final DatabaseReference newMessageDb= mChatMessagesDb.child(messageId);
             final Map newMessageMap=new HashMap<>();
             newMessageMap.put("creator",FirebaseAuth.getInstance().getUid());
 
@@ -125,7 +127,7 @@ public class ChatActivity extends AppCompatActivity {
                 for(String medialUri: mediaUriList){
                     String mediaId = newMessageDb.child("media").push().getKey();
                     medialList.add(mediaId);
-                    final StorageReference filePath=FirebaseStorage.getInstance().getReference().child("chat").child(chatID).child(messageId).child(mediaId);
+                    final StorageReference filePath=FirebaseStorage.getInstance().getReference().child("chat").child(mChatOject.getChatId()).child(messageId).child(mediaId);
                     UploadTask uploadTask=filePath.putFile(Uri.parse(medialUri));
                     uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -159,6 +161,19 @@ public class ChatActivity extends AppCompatActivity {
         mediaUriList.clear();
         medialList.clear();
         mMediaAdapter.notifyDataSetChanged();
+
+        String message;
+
+        if(newMessageMap.get("text") != null)
+            message = newMessageMap.get("text").toString();
+        else
+            message = "Sent Media";
+
+        for(UserObject mUser : mChatOject.getUserObjectArrayList()){
+            if(!mUser.getUid().equals(FirebaseAuth.getInstance().getUid())){
+                new SendNotification(message, "New Message", mUser.getNotificationKey());
+            }
+        }
     }
 
     @SuppressLint({"WrongViewCast", "WrongConstant"})

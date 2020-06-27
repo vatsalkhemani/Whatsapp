@@ -47,31 +47,20 @@ public class GroupChatActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
-
-
-
-
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("user");
         GroupNameRef = FirebaseDatabase.getInstance().getReference().child("Groups");
 
-
-
         InitializeFields();
-
-
         GetUserInfo();
-
 
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 SaveMessageInfoToDatabase();
-
                 userMessageInput.setText("");
-
                 mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
@@ -83,7 +72,6 @@ public class GroupChatActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-
         GroupNameRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
@@ -199,12 +187,8 @@ public class GroupChatActivity extends AppCompatActivity {
 
         while(iterator.hasNext())
         {
-
             String chatMessage = (String) ((DataSnapshot)iterator.next()).getValue();
-
-
             displayTextMessages.append(chatMessage+"\n");
-
             mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }

@@ -31,6 +31,7 @@ public class MessageObject {
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
+
     public ArrayList<String> getMediaUrlList(){
         return mediaUrlList;
     }

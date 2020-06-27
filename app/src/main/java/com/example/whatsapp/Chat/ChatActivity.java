@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,12 +46,19 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<MessageObject> messageList;
     ChatObject mChatOject;
     DatabaseReference mChatMessagesDb;
+    String currentUserID;
+    FirebaseAuth mAuth;
+
+    DatabaseReference UsersRef;
+    String currentUserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         mChatOject=(ChatObject) getIntent().getSerializableExtra("chatObject");
+
         mChatMessagesDb= FirebaseDatabase.getInstance().getReference().child("chat").child(mChatOject.getChatId()).child("messages");
+        UsersRef=FirebaseDatabase.getInstance().getReference().child("user");
 
         Button mSend=findViewById(R.id.send);
         Button mAddMedia=findViewById(R.id.addMedia);
@@ -73,26 +82,55 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
+    private void GetUserInfo()
+    {
+
+    }
+
+
     private void getChatMessages() {
         mChatMessagesDb.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull final DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()){
-                   String text="",
-                           creatorID="";
-                   ArrayList<String> mediaUriList=new ArrayList<>();
+                   String text="";
+                   String name="";
+                    final String[] creatorID = {""};
+                    final ArrayList<String> mediaUriList=new ArrayList<>();
                     if(snapshot.child("text").getValue() != null)
                         text=snapshot.child("text").getValue().toString();
-                    if(snapshot.child("creator").getValue() != null)
-                        creatorID=snapshot.child("creator").getValue().toString();
+                    if(snapshot.child("creator").getValue() != null) {
+
+
+                        final String finalText = text;
+                        UsersRef.child(snapshot.child("creator").getValue().toString()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot)
+                            {
+                                if (dataSnapshot.exists())
+                                {
+                                   creatorID[0] = dataSnapshot.child("name").getValue().toString();
+                                    MessageObject mMessage=new MessageObject(snapshot.getKey(), creatorID[0], finalText,mediaUriList);
+                                    messageList.add(mMessage);
+                                    mChatLayoutManager.scrollToPosition(messageList.size()-1);
+                                    mChatAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
                     if(snapshot.child("media").getChildrenCount()>0)
                         for(DataSnapshot mediaSnapshot: snapshot.child("media").getChildren())
                             mediaUriList.add(mediaSnapshot.getValue().toString());
 
-                    MessageObject mMessage=new MessageObject(snapshot.getKey(), creatorID, text,mediaUriList);
-                    messageList.add(mMessage);
-                    mChatLayoutManager.scrollToPosition(messageList.size()-1);
-                    mChatAdapter.notifyDataSetChanged();
+                    Log.i("creator as mMessage= ","this" + creatorID[0]);
+
                 }
             }
 

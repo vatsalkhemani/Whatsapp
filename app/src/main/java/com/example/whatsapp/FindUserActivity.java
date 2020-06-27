@@ -30,7 +30,6 @@ import java.util.HashMap;
 
 public class FindUserActivity extends AppCompatActivity {
 
-
     private RecyclerView mUserList;
     private RecyclerView.Adapter mUserListAdapter;
     private RecyclerView.LayoutManager mUserListLayoutManager;
@@ -62,6 +61,18 @@ public class FindUserActivity extends AppCompatActivity {
 
         DatabaseReference chatInfoDb = FirebaseDatabase.getInstance().getReference().child("chat").child(key).child("info");
         DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("user");
+        DatabaseReference nameDb=userDb.child("chat").child("name");
+        nameDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name=snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         HashMap newChatMap = new HashMap();
         newChatMap.put("id", key);

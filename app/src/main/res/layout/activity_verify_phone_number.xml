@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="100dp"
     tools:context=".VerifyPhoneNumber">
 
     <EditText
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="enter OTP"
+        android:textAlignment="center"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="112dp"
         tools:layout_editor_absoluteY="335dp"
@@ -22,6 +24,8 @@
 
     <Button
         android:id="@+id/verify"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="verify"

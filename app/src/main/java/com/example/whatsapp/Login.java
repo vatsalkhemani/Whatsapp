@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText mPhoneNumber;
+    EditText mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class Login extends AppCompatActivity {
 
         mPhoneNumber = findViewById(R.id.phone);
         mAuth=FirebaseAuth.getInstance();
+        mName=findViewById(R.id.name);
 
         //To keep the user Logged In
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -37,8 +39,12 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String mobile=mPhoneNumber.getText().toString();
+                String name=mPhoneNumber.getText().toString();
               Intent intent=new Intent(Login.this,VerifyPhoneNumber.class);
-              intent.putExtra("mobile",mobile);
+              Bundle extras =new Bundle();
+              extras.putString("mobile",mobile);
+              extras.putString("displayname",name);
+              intent.putExtras(extras);
               startActivity(intent);
             }
         });

@@ -5,15 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="100dp"
     tools:context=".Login">
+
+
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter name "
+        android:textAlignment="center"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="80dp"
+        tools:ignore="MissingConstraints" />
 
 
     <EditText
         android:id="@+id/phone"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter phone "
+        android:textAlignment="center"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="80dp"
@@ -23,6 +40,8 @@
 
     <Button
         android:id="@+id/send"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="send"

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.whatsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -36,8 +37,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         return rcv;
     }
 
+
+
+
     @Override
     public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
+
         holder.mTitle.setText(chatList.get(position).getChatId());
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {

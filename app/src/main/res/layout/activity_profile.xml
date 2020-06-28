@@ -6,32 +6,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ProfileActivity"
+    android:background="@drawable/bg2"
     android:padding="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:layout_marginLeft="25dp"
+            android:layout_height="78dp"
+            android:layout_width="80dp"
+            android:src="@drawable/finduser"
+            android:background="@android:color/white"
+            android:scaleType="fitXY"
             android:text="find user"
             android:id="@+id/findUser"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:text="Group"
-            android:id="@+id/group"/>
+        <ImageButton
+            android:id="@+id/group"
+            android:layout_marginLeft="35dp"
+            android:background="@android:color/holo_orange_dark"
+            android:layout_width="80dp"
+            android:layout_height="78dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/groupchat"
+            android:text="Group" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:layout_width="80dp"
+            android:background="@android:color/holo_orange_dark"
+            android:layout_marginLeft="35dp"
+            android:layout_height="78dp"
+            android:src="@drawable/logout"
             android:text="logout"
+            android:scaleType="fitXY"
             android:id="@+id/logout"/>
     </LinearLayout>
+
+    <TextView
+
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/background_dark"
+        android:text="CHAT  LIST"
+        android:textSize="20sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

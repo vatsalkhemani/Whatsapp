@@ -49,6 +49,7 @@ public class FindUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createChat();
+                onBackPressed();
             }
         });
 

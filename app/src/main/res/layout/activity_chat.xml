@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/messageList"
+        android:paddingLeft="20sp"
 
         android:layout_above="@+id/sendLayout"/>
     
@@ -24,6 +25,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="20sp"
             android:id="@+id/mediaList"/>
 
         
@@ -38,15 +40,17 @@
                 android:id="@+id/mes"
                 android:hint="message.."/>
 
-            <Button
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_weight="0.2"
+                android:src="@drawable/send_attachment"
                 android:layout_height="wrap_content"
                 android:text="media"
                 android:id="@+id/addMedia"/>
 
-            <Button
+            <ImageButton
                 android:layout_width="0dp"
+                android:src="@drawable/send_message"
                 android:layout_weight="0.2"
                 android:layout_height="wrap_content"
                 android:text="send"

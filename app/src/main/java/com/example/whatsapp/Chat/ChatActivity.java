@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.whatsapp.R;
@@ -60,8 +61,8 @@ public class ChatActivity extends AppCompatActivity {
         mChatMessagesDb= FirebaseDatabase.getInstance().getReference().child("chat").child(mChatOject.getChatId()).child("messages");
         UsersRef=FirebaseDatabase.getInstance().getReference().child("user");
 
-        Button mSend=findViewById(R.id.send);
-        Button mAddMedia=findViewById(R.id.addMedia);
+        ImageButton mSend=findViewById(R.id.send);
+        ImageButton mAddMedia=findViewById(R.id.addMedia);
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

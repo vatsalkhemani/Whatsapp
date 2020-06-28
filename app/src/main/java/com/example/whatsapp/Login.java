@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String mobile=mPhoneNumber.getText().toString();
-                String name=mPhoneNumber.getText().toString();
+                String name=mName.getText().toString();
               Intent intent=new Intent(Login.this,VerifyPhoneNumber.class);
               Bundle extras =new Bundle();
               extras.putString("mobile",mobile);

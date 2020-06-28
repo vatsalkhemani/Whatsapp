@@ -60,8 +60,43 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                     String[] user2ID=users[1].split("=");
                     String user1=user1ID[0];
                     String user2=user2ID[0];
+                    String user2value=user2;
+                    user2value=user2value.substring(1);
+                    String user1value = user1;
+                    user1value = user1value.substring(1);
 
-                    holder.mTitle.setText(user1+"\n"+user2);
+                    DatabaseReference userName=FirebaseDatabase.getInstance().getReference().child("user").child(user1value).child("name");
+                    final String finalUser2value = user2value;
+                    userName.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists())
+                            holder.mTitle.setText(snapshot.getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    DatabaseReference userName2=FirebaseDatabase.getInstance().getReference().child("user").child(user2value).child("name");
+                    userName2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                holder.mTitle.append("\n");
+                                holder.mTitle.append(snapshot.getValue().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
                 }
             }
 

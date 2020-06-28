@@ -48,8 +48,29 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
 
 
+        final DatabaseReference mUserDB=FirebaseDatabase.getInstance().getReference().child("chat").child(chatList.get(position).getChatId()).child("info").child("users");
+        mUserDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        holder.mTitle.setText(chatList.get(position).getChatId());
+                if(snapshot.exists()) {
+                    String s=snapshot.getValue().toString();
+                   String[] users=s.split(",");
+                   String[] user1ID=users[0].split("=");
+                    String[] user2ID=users[1].split("=");
+                    String user1=user1ID[0];
+                    String user2=user2ID[0];
+
+                    holder.mTitle.setText(user1+"\n"+user2);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override

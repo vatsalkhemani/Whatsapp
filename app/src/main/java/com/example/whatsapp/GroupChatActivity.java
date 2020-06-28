@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -147,8 +148,9 @@ public class GroupChatActivity extends AppCompatActivity {
 
     private void SaveMessageInfoToDatabase()
     {
-        String message = userMessageInput.getText().toString();
         String messagekEY = GroupNameRef.push().getKey();
+        String message = userMessageInput.getText().toString();
+
 
         if (TextUtils.isEmpty(message))
         {
@@ -165,17 +167,19 @@ public class GroupChatActivity extends AppCompatActivity {
             currentTime = currentTimeFormat.format(calForTime.getTime());
 
 
-            HashMap<String, Object> groupMessageKey = new HashMap<>();
-            GroupNameRef.updateChildren(groupMessageKey);
+
 
             GroupMessageKeyRef = GroupNameRef.child(messagekEY);
 
             HashMap<String, Object> messageInfoMap = new HashMap<>();
+
             messageInfoMap.put("name", currentUserName);
             messageInfoMap.put("message", message);
-            messageInfoMap.put("date", currentDate);
-            messageInfoMap.put("time", currentTime);
+
             GroupMessageKeyRef.updateChildren(messageInfoMap);
+
+            HashMap<String, Object> groupMessageKey = new HashMap<>();
+            GroupNameRef.updateChildren(groupMessageKey);
         }
     }
 
@@ -188,7 +192,9 @@ public class GroupChatActivity extends AppCompatActivity {
         while(iterator.hasNext())
         {
             String chatMessage = (String) ((DataSnapshot)iterator.next()).getValue();
-            displayTextMessages.append(chatMessage+"\n");
+            String name = (String) ((DataSnapshot)iterator.next()).getValue();
+            Log.i("message",name +":"+chatMessage);
+            displayTextMessages.append(name +":"+"\n"+chatMessage+"\n\n");
             mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }

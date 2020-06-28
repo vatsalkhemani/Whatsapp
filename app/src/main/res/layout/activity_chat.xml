@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relativelayout"
+    android:background="@drawable/chatbg"
     tools:context=".Chat.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+
         android:id="@+id/sendLayout">
         
         <androidx.recyclerview.widget.RecyclerView
@@ -31,28 +33,36 @@
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:padding="5sp">
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_weight="0.8"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:textAlignment="center"
+                android:background="@android:color/white"
                 android:id="@+id/mes"
                 android:hint="message.."/>
 
             <ImageButton
                 android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="0.2"
                 android:src="@drawable/send_attachment"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:background="@android:color/white"
                 android:text="media"
                 android:id="@+id/addMedia"/>
 
             <ImageButton
                 android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
                 android:src="@drawable/send_message"
+                android:background="@android:color/white"
                 android:layout_weight="0.2"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:text="send"
                 android:id="@+id/send"/>
 
